@@ -4,17 +4,20 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { VolumesComponent } from './components/volumes/volumes.component';
+import { SocketioService } from './services/socket.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VolumesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [SocketioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

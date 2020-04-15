@@ -1,13 +1,6 @@
-export class Interval {
-    id: number;
-    symbol: string;
-    exchange: string;
-    size: string;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    closeTime: number;
+import { IntervalBase } from './interval-base.class';
+
+export class Interval extends IntervalBase {
     volume: number;
     volumePlus1: number;
     volumePlus2: number;

@@ -1,1 +1,38 @@
-<p>volumes works!</p>
+<h1>Volume Watcher</h1>
+<h4>Actively watching exchanges for increases in volume</h4>
+<div>
+    <button mat-flat-button color="accent" (click)="onOpenOptions()">Set Options</button>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-flat-button color="accent" (click)="onOpenDonate()">Donate</button>
+    &nbsp;&nbsp;
+    <mat-label>Show BTC Pairs</mat-label>&nbsp;
+    <mat-checkbox [(ngModel)]="useBtc" (ngModelChange)="onBtcChange($event)"></mat-checkbox>
+    &nbsp;&nbsp;
+    <mat-label>Show USDT Pairs</mat-label>&nbsp;
+    <mat-checkbox [(ngModel)]="useUsdt" (ngModelChange)="onUsdtChange($event)"></mat-checkbox>
+    &nbsp;&nbsp;
+    <mat-label>Interval</mat-label>
+    <mat-form-field>
+        <mat-select style="text-align: center;" [(ngModel)]="selectedInterval" (selectionChange)="onIntervalSelect($event)">
+            <mat-option *ngFor="let size of intervals" [value]="size">
+                {{size}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<table mat-table>
+    <thead>
+        <tr>
+            <th style="width: 75px;" (click)="onSymbolSort()" style="cursor: pointer;">Symbol</th>
+            <th style="width: 75px;">Exchange</th>
+            <th style="width: 35px;">Interval</th>
+            <th style="width: 340px;"></th>
+        </tr>
+    </thead>
+</table>
+<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+<div *ngIf="!loading">
+    <div *ngFor="let item of filtered">
+        <app-custom-response [item]="item"></app-custom-response>
+    </div>
+</div>

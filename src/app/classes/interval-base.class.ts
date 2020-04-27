@@ -3,9 +3,9 @@ export class IntervalBase {
     symbol: string;
     exchange: string;
     size: string;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    closeTime: number;    
+    open: string;
+    high: string;
+    low: string;
+    close: string;
+    closeTime: number;
 }

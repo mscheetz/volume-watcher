@@ -1,0 +1,49 @@
+<p>Please donate if you found this app helpful.</p>
+
+<mat-form-field>
+    <mat-select style="text-align: center;" [(ngModel)]="selectedCoin" (selectionChange)="onSelect($event)">
+        <mat-option *ngFor="let coin of coins" [value]="coin">
+            {{coin}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div *ngIf="showBTC">
+    <div>
+        <mat-label>BTC:</mat-label>
+    </div>
+    <div>
+        <mat-label style="font-size: smaller;word-break: break-all;">{{btc}}</mat-label>
+    </div>
+    <qrcode [qrdata]="btc" [width]="128" [errorCorrectionLevel]="'M'" [colorLight]="btcColors[1]" [colorDark]="btcColors[0]" [margin]="1"></qrcode>
+</div>
+<div *ngIf="showETH">
+    <div>
+        <mat-label>ETH:</mat-label>
+    </div>
+    <div>
+        <mat-label style="font-size: smaller;word-break: break-all;">{{eth}}</mat-label>
+    </div>
+    <qrcode [qrdata]="eth" [width]="128" [errorCorrectionLevel]="'M'" [colorLight]="ethColors[1]" [colorDark]="ethColors[0]" [margin]="1"></qrcode>
+</div>
+<div *ngIf="showNANO">
+    <div>
+        <mat-label>Nano:</mat-label>
+    </div>
+    <div>
+        <mat-label style="font-size: smaller;word-break: break-all;">{{nano}}</mat-label>
+    </div>
+    <qrcode [qrdata]="nano" [width]="128" [errorCorrectionLevel]="'M'" [colorLight]="nanoColors[1]" [colorDark]="nanoColors[0]" [margin]="1"></qrcode>
+</div>
+<div *ngIf="showRVN">
+    <div>
+        <mat-label>Ravencoin:</mat-label>
+    </div>
+    <div>
+        <mat-label style="font-size: smaller;word-break: break-all;">{{rvn}}</mat-label>
+    </div>
+    <qrcode [qrdata]="rvn" [width]="128" [errorCorrectionLevel]="'M'" [colorLight]="rvnColors[1]" [colorDark]="rvnColors[0]" [margin]="1"></qrcode>
+</div>
+<div>
+    <button mat-flat-button color="accent" (click)="onClose()">OK</button>
+</div>

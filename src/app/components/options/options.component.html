@@ -1,0 +1,44 @@
+<h3>Select Options</h3>
+<div>
+    <mat-label>Exchange</mat-label>
+    <mat-form-field>
+        <mat-select style="text-align: center;" [(ngModel)]="selectedExchange" (selectionChange)="onExchangeSelect($event)">
+            <mat-option *ngFor="let ex of exchanges" [value]="ex">
+                {{ex}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div>
+    <mat-label>Interval</mat-label>
+    <mat-form-field>
+        <mat-select style="text-align: center;" [(ngModel)]="selectedInterval" (selectionChange)="onIntervalSelect($event)">
+            <mat-option *ngFor="let size of sizes" [value]="size">
+                {{size}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div>
+    <mat-label>Percent Volume Increase</mat-label>
+    <div>
+        <mat-slider min="0" max="100000" step="1" [(ngModel)]="selectedPercent" (change)="onSliderChange($event)"></mat-slider>
+    </div>
+    <div>
+        <mat-form-field style="width: 100px;margin-top: -10px !important;">
+            <input style="width: 75px;text-align: right;" matInput [(ngModel)]="percentInput" (keydown)="onPercentKeyDown($event)" /><span>%</span>
+        </mat-form-field>
+    </div>
+</div>
+<div>
+    <mat-label>BTC Pairs</mat-label>&nbsp;&nbsp;
+    <mat-checkbox [(ngModel)]="useBtc" (ngModelChange)="onBtcChange($event)"></mat-checkbox>
+</div>
+<div>
+    <mat-label>USDT Pairs</mat-label>&nbsp;&nbsp;
+    <mat-checkbox [(ngModel)]="useUsdt" (ngModelChange)="onUsdtChange($event)"></mat-checkbox>
+</div>
+
+<button mat-raised-button color="accent" (click)="onGo($event)" [disabled]="btnDisabled">GO!</button>
+&nbsp;&nbsp;&nbsp;
+<button mat-raised-button color="basic" (click)="onExit($event)" >Exit</button>

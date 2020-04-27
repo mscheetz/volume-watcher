@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const dist_dir = 'dist/chain-hunter';
+const dist_dir = 'dist/volume-watcher';
 
 const forceSSL = function() {
     return function (req, res, next) {

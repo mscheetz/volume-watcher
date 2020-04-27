@@ -67,6 +67,11 @@ export class VolumesComponent implements OnInit {
       };
       this.items.push(newItem);
       this.filtered.push(newItem);
+      this.intervals = [...new Set(this.items.map(i => i.size))];
+      if(this.intervals.length > 1) {
+        this.intervals.unshift('All');
+      }
+      this.selectedInterval = 'All';
     });
   }
 

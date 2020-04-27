@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const dist_dir = 'dist/chain-hunter';
 
 const forceSSL = function() {
     return function (req, res, next) {
@@ -14,10 +15,10 @@ const forceSSL = function() {
 }
 
 app.use(forceSSL());
-app.use(express.static(__dirname + '/dist'));
+app.get('*.*', express.static(dist_dir, { maxAge: '1yr' }));
 
 app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/dist/index.html'));
+    res.sendFile('/', { root: dist_dir });
 });
 
 app.listen(process.env.PORT || 8080);

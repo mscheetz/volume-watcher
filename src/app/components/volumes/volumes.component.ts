@@ -6,6 +6,7 @@ import { CustomInterval } from 'src/app/classes/custom-interval.class';
 import { OptionsComponent } from '../options/options.component';
 import { QrCodesComponent } from '../qr-codes/qr-codes.component';
 import { ApiService } from 'src/app/services/api.service';
+import { CoreService } from 'src/app/services/core.service';
 
 @Component({
   selector: 'app-volumes',
@@ -25,6 +26,7 @@ export class VolumesComponent implements OnInit {
   selectedInterval: string = "All";
 
   constructor(private apiSvc: ApiService,
+              private coreSvc: CoreService,
               private socketSvc: SocketioService, 
               public dialog: MatDialog) { }
 
@@ -35,8 +37,8 @@ export class VolumesComponent implements OnInit {
           this.loading = false;
           this.items = res;
           this.items.forEach(item => {
-            item.diff = this.getDiff(item);
-            item.url = this.getUrl(item);
+            item.diff = this.coreSvc.getDiff(item);
+            item.url = this.coreSvc.getUrl(item);
           });
           this.intervals = [...new Set(this.items.map(i => i.size))];
           if(this.intervals.length > 1) {
@@ -62,8 +64,8 @@ export class VolumesComponent implements OnInit {
         volume: volumes,
         size: msg.size,
         symbol: msg.symbol,
-        diff: this.getDiff(msg),
-        url: this.getUrl(msg)
+        diff: this.coreSvc.getDiff(msg),
+        url: this.coreSvc.getUrl(msg)
       };
       this.items.push(newItem);
       this.filtered.push(newItem);
@@ -119,29 +121,6 @@ export class VolumesComponent implements OnInit {
       this.filtered = this.filtered.sort((a, b) => (a.symbol > b.symbol) ? 1 : -1)
     } else {
       this.filtered = this.filtered.sort((a, b) => (a.symbol < b.symbol) ? 1 : -1)
-    }
-  }
-
-  getDiff(item: any) {
-    let decimals = item.symbol.indexOf("USDT") > 0 ? 7 : 8;
-    let result = +item.close - +item.open;
-
-    let final = result.toFixed(decimals);
-    if(+item.close > +item.open) {
-      final = `+${final}`;
-    }
-    return final;
-  }
-
-  getUrl(item: any): string {
-    if(item.exchange === "BINANCE") {
-      let symbol = item.symbol;
-      if(symbol.endsWith("BTC")) {
-        symbol = symbol.replace("BTC", "_BTC");        
-      } else {
-        symbol = symbol.replace("USDT", "_USDT");
-      }
-      return `https://www.binance.com/en/trade/pro/${symbol}`;
     }
   }
 

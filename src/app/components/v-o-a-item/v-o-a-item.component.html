@@ -22,108 +22,11 @@
             <td><strong>Low</strong></td>
             <td>{{item.low}}</td>
         </tr>
-        <tr>
-            <td colspan="7">
-                <strong>Recent sticks over volume average</strong>
-                <table>
-                    <tr>
-                        <td>
-                            Last 1000 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[0]}}
-                        </td>
-                        <td>
-                            Last 30 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[1]}}
-                        </td>
-                        <td>
-                            Last 60 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[2]}}
-                        </td>
-                        <td>
-                            Last 100 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[3]}}
-                        </td>
-                        <td>
-                            Last 200 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[4]}}
-                        </td>
-                        <td>
-                            Last 365 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[5]}}
-                        </td>
-                        <td>
-                            Total 3 day Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[6]}}
-                        </td>
-                        <td>
-                            Total 1 week Avg:
-                        </td>
-                        <td>
-                            {{item.daysOver[7]}}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
     </tbody>
 </table>
 <div class="chart-wrapper">
-    <h5>1 Day Candles</h5>
+    <h5>1 Day Candles <span style="font-size: smaller;">{{dailyName}} average</span></h5>
     <!-- <strong>Recent sticks over volume averages</strong> -->
-    <table>
-        <tr>
-            <td>
-                1000 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[0]}}
-            </td>
-            <td>
-                30 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[1]}}
-            </td>
-            <td>
-                60 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[2]}}
-            </td>
-            <td>
-                100 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[3]}}
-            </td>
-            <td>
-                200 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[4]}}
-            </td>
-            <td>
-                365 Day:
-            </td>
-            <td class="bold">
-                {{item.daysOver[5]}}
-            </td>
-        </tr>
-    </table>
     <canvas baseChart
     [datasets]="chartData1d"
     [options]="chartOptions"

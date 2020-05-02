@@ -9,6 +9,22 @@
         </mat-option>
     </mat-select>
 </mat-form-field>
+&nbsp;&nbsp;
+<mat-label>Accumulation Indicators</mat-label>
+<mat-form-field>
+    <mat-select style="text-align: center;" [(ngModel)]="selectedIndicator" (selectionChange)="onIndicatorSelect($event)">
+        <mat-option *ngFor="let i of indicators" [value]="i">
+            {{i}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+&nbsp;&nbsp;
+<mat-label>Show BTC Pairs</mat-label>&nbsp;
+<mat-checkbox [(ngModel)]="useBtc" (ngModelChange)="onBtcChange($event)"></mat-checkbox>
+&nbsp;&nbsp;
+<mat-label>Show USDT Pairs</mat-label>&nbsp;
+<mat-checkbox [(ngModel)]="useUsdt" (ngModelChange)="onUsdtChange($event)"></mat-checkbox>
+&nbsp;&nbsp;
 <table mat-table>
     <thead>
         <tr>
@@ -19,9 +35,12 @@
         </tr>
     </thead>
 </table>
-<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
-<div *ngIf="!loading">
-    <div *ngFor="let item of filtered">
-        <app-v-o-a-item [item]="item"></app-v-o-a-item>
-    </div>
+<div *ngFor="let item of filtered">
+    <app-v-o-a-item 
+            [item]="item"
+            [dailyIdx]="dailyIdx"
+            [dailyName]="selectedDaily">
+    </app-v-o-a-item>
 </div>
+<h5 *ngIf="allData">All data received</h5>
+<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { VolumeOverAverge } from 'src/app/classes/volume-over-average.class';
 import { ApiService } from 'src/app/services/api.service';
 import { PagedResponse } from 'src/app/classes/paged-response.class';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SocketioService } from 'src/app/services/socket.service';
+import { CoreService } from 'src/app/services/core.service';
 
 @Component({
   selector: 'app-volume-over-average',
@@ -19,20 +21,36 @@ export class VolumeOverAverageComponent implements OnInit {
   selectedInterval: string = "All";
   getComplete: boolean = true;
   page: number = 0;
-  size: number = 75;
-  selectedIdx: number = 0;
+  size: number = 25;
+  dailyIdx: number = 0;
   selectedDaily: string = "";
   dailies: string[] = [];
+  selectedIndicator: string = "Select";
+  indicators: string[] = [];
+  allData: boolean = false;
+  threeDAccum: boolean = false;
+  weeklyAccum: boolean = false;
 
-  constructor(private apiSvc: ApiService, private snack: MatSnackBar) {
+  constructor(private apiSvc: ApiService,
+              private coreSvc: CoreService,
+              private snack: MatSnackBar,
+              private socketSvc: SocketioService ) {
     this.dailies = [ '1000 Day', '30 Day', '60 Day', '100 Day', '200 Day', '365 Day' ];
+    this.indicators = [ 'Select', '3 Day', 'Weekly' ];
     this.selectedDaily = this.dailies[0];
    }
 
   ngOnInit() {
     if(this.items.length === 0) {
-      this.loading = true;
-      this.onGetRecords();
+      this.socketSvc.listen('voa-items', (item) => {
+        this.loading = false;
+        if(item === null) {
+          this.allData = true;
+        } else {
+          this.onProcessItem(item);
+        }
+      });
+      this.getSocketPage();
     }
   }
 
@@ -48,10 +66,7 @@ export class VolumeOverAverageComponent implements OnInit {
 
   async onProcessResults(res: PagedResponse<VolumeOverAverge[]>) {
     res.data.forEach(item => {
-      item.diff = this.getDiff(item);
-      item.url = this.getUrl(item);
-      this.items.push(item);
-      this.filtered.push(item);
+      this.onProcessItem(item);
     });
     if(res.page === res.pages) {
       this.getComplete = true;
@@ -60,6 +75,37 @@ export class VolumeOverAverageComponent implements OnInit {
       this.page++;
       await this.onGetRecords();
     }
+  }
+
+  onProcessItem(item: VolumeOverAverge) {
+    item.diff = this.coreSvc.getDiff(item);
+    item.url = this.coreSvc.getUrl(item);
+    let threeDayCount = 0;
+    let weeklyCount = 0;
+    let threeDayContinue = true;
+    let weeklyContinue = true;
+    for(let i = item.volume3d.length - 1; i >= 0; i --) {
+      if(threeDayContinue && +item.volume3d[i] > +item.volAvg[6]) {
+        threeDayCount++;
+      } else {
+        threeDayContinue = false;
+      }
+      if(item.volume1w.length >= (i + 1)) {
+        if(weeklyContinue && +item.volume1w[i] > +item.volAvg[7]) {
+          weeklyCount++;
+        } else {
+          weeklyContinue = false;
+        }
+      }
+      if(!threeDayContinue && !weeklyContinue) {
+        break;
+      }
+    }
+    item.accumulation3D = threeDayCount > 1 ? true : false;
+    item.accumulationWeekly = weeklyCount > 1 ? true : false;
+    this.items.push(item);
+    this.onBaseChange();
+    //this.filtered.push(item);
   }
 
   onAlertComplete() {
@@ -71,12 +117,19 @@ export class VolumeOverAverageComponent implements OnInit {
   onBaseChange() {
     this.loading = true;
     this.filtered = [];
-    if(this.useBtc && this.useUsdt) {
+
+    if(this.selectedIndicator === '3 Day') {
+      this.filtered = this.items.filter(i => i.accumulation3D === true);
+    } else if(this.selectedIndicator === 'Weekly') {
+      this.filtered = this.items.filter(i => i.accumulationWeekly === true);
+    } else {
       this.filtered = this.items;
-    } else if(this.useBtc && !this.useUsdt) {
-      this.filtered = this.items.filter(i => i.symbol.endsWith("BTC"));
+    }
+    
+    if(this.useBtc && !this.useUsdt) {
+       this.filtered = this.filtered.filter(i => i.symbol.endsWith("BTC"));
     } else if(!this.useBtc && this.useUsdt) {
-      this.filtered = this.items.filter(i => i.symbol.endsWith("USDT"));
+       this.filtered = this.filtered.filter(i => i.symbol.endsWith("USDT"));
     }
 
     if(this.selectedInterval !== "" && this.selectedInterval !== "All") {
@@ -95,30 +148,42 @@ export class VolumeOverAverageComponent implements OnInit {
     }
   }
 
-  getDiff(item: any) {
-    let decimals = item.symbol.indexOf("USDT") > 0 ? 7 : 8;
-    let result = +item.close - +item.open;
-
-    let final = result.toFixed(decimals);
-    if(+item.close > +item.open) {
-      final = `+${final}`;
-    }
-    return final;
-  }
-
-  getUrl(item: any): string {
-    if(item.exchange === "BINANCE") {
-      let symbol = item.symbol;
-      if(symbol.endsWith("BTC")) {
-        symbol = symbol.replace("BTC", "_BTC");        
-      } else {
-        symbol = symbol.replace("USDT", "_USDT");
-      }
-      return `https://www.binance.com/en/trade/pro/${symbol}`;
-    }
-  }
-
   onDailySelect(event) {
-    console.log('selection', event);
+    this.dailyIdx = this.dailies.indexOf(this.selectedDaily);
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event) {
+    let position = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
+    let max = document.documentElement.scrollHeight;
+    if(position === max) {
+      this.page++;
+      this.getSocketPage();
+    }
+  }
+
+  getSocketPage(){
+    if(!this.allData) {
+      this.loading = true;
+      this.socketSvc.send('voa-paged', { page: this.page, size: this.size });
+    }
+  }
+
+  onIndicatorSelect(event) {
+    this.onBaseChange();
+  }
+
+  onBtcChange(event) {
+    if(!this.useBtc && !this.useUsdt) {
+      this.useUsdt = true;
+    }
+    this.onBaseChange();
+  }
+
+  onUsdtChange(event) {
+    if(!this.useBtc && !this.useUsdt) {
+      this.useBtc = true;
+    }
+    this.onBaseChange();
   }
 }

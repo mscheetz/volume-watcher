@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { QRCodeModule } from 'angularx-qrcode';
 
@@ -23,6 +24,8 @@ import { CustomResponseComponent } from './components/custom-response/custom-res
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OptionsComponent } from './components/options/options.component';
 import { QrCodesComponent } from './components/qr-codes/qr-codes.component';
+import { VolumeOverAverageComponent } from './components/volume-over-average/volume-over-average.component';
+import { VOAItemComponent } from './components/v-o-a-item/v-o-a-item.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { QrCodesComponent } from './components/qr-codes/qr-codes.component';
     VolumesComponent,
     CustomResponseComponent,
     OptionsComponent,
-    QrCodesComponent
+    QrCodesComponent,
+    VolumeOverAverageComponent,
+    VOAItemComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ import { QrCodesComponent } from './components/qr-codes/qr-codes.component';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSliderModule,
+    MatSnackBarModule,
     QRCodeModule
   ],
   providers: [SocketioService],

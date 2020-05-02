@@ -1,0 +1,27 @@
+<div>
+    <strong>Red candles are over the average candle for the specified timeframe</strong>
+</div>
+<mat-label>Daily Candle Average</mat-label>
+<mat-form-field>
+    <mat-select style="text-align: center;" [(ngModel)]="selectedDaily" (selectionChange)="onDailySelect($event)">
+        <mat-option *ngFor="let d of dailies" [value]="d">
+            {{d}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<table mat-table>
+    <thead>
+        <tr>
+            <th style="width: 75px;" (click)="onSymbolSort()" style="cursor: pointer;">Symbol</th>
+            <th style="width: 75px;">Exchange</th>
+            <th style="width: 35px;">Interval</th>
+            <th style="width: 340px;"></th>
+        </tr>
+    </thead>
+</table>
+<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+<div *ngIf="!loading">
+    <div *ngFor="let item of filtered">
+        <app-v-o-a-item [item]="item"></app-v-o-a-item>
+    </div>
+</div>

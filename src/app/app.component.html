@@ -1,1 +1,10 @@
-<app-volumes></app-volumes>
+<!-- <app-volumes></app-volumes> -->
+<h1>Volume Watcher</h1>
+<h4>Actively watching exchanges for increases in volume</h4>
+<div>
+    <button mat-flat-button color="accent" (click)="onToggleView($event)">{{viewName}}</button>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-flat-button color="accent" (click)="onOpenDonate()">Donate</button>
+</div>
+<app-volume-over-average *ngIf="view === 0"></app-volume-over-average>
+<app-volumes *ngIf="view === 1"></app-volumes>

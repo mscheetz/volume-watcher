@@ -1,0 +1,16 @@
+canvas {
+    width: 600px !important;
+    height: 50px !important;
+}
+
+h5 {
+    margin-block-end: 0em;
+}
+
+.chart-wrapper {
+    border-bottom: 2px solid #4e544a;
+}
+
+.bold {
+    font-weight: bold;
+}

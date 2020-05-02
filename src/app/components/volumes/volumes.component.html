@@ -1,9 +1,5 @@
-<h1>Volume Watcher</h1>
-<h4>Actively watching exchanges for increases in volume</h4>
 <div>
     <button mat-flat-button color="accent" (click)="onOpenOptions()">Set Options</button>
-    &nbsp;&nbsp;&nbsp;
-    <button mat-flat-button color="accent" (click)="onOpenDonate()">Donate</button>
     &nbsp;&nbsp;
     <mat-label>Show BTC Pairs</mat-label>&nbsp;
     <mat-checkbox [(ngModel)]="useBtc" (ngModelChange)="onBtcChange($event)"></mat-checkbox>

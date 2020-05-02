@@ -8,4 +8,6 @@ export class IntervalBase {
     low: string;
     close: string;
     closeTime: number;
+    diff: string;
+    url: string;
 }

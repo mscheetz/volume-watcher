@@ -1,0 +1,148 @@
+<table mat-table>
+    <tbody>
+        <tr>
+            <td style="width: 75px;"><a href="{{item.url}}" target="_blank">{{item.symbol}}</a></td>
+            <td style="width: 75px;">{{item.exchange}}</td>
+            <td style="width: 35px;">{{item.size}}</td>
+            <td><strong>Open</strong></td>
+            <td>{{item.open}}</td>
+            <td><strong>High</strong></td>
+            <td>{{item.high}}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <strong>Diff</strong>
+                &nbsp;
+                <span style="font-weight: 600;" [style.color]="item.diff.indexOf('-') === 0 ? 'red' : 'green'">
+                    {{item.diff}}
+                </span>
+            </td>
+            <td><strong>Close</strong></td>
+            <td>{{item.close}}</td>
+            <td><strong>Low</strong></td>
+            <td>{{item.low}}</td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <strong>Recent sticks over volume average</strong>
+                <table>
+                    <tr>
+                        <td>
+                            Last 1000 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[0]}}
+                        </td>
+                        <td>
+                            Last 30 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[1]}}
+                        </td>
+                        <td>
+                            Last 60 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[2]}}
+                        </td>
+                        <td>
+                            Last 100 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[3]}}
+                        </td>
+                        <td>
+                            Last 200 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[4]}}
+                        </td>
+                        <td>
+                            Last 365 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[5]}}
+                        </td>
+                        <td>
+                            Total 3 day Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[6]}}
+                        </td>
+                        <td>
+                            Total 1 week Avg:
+                        </td>
+                        <td>
+                            {{item.daysOver[7]}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="chart-wrapper">
+    <h5>1 Day Candles</h5>
+    <!-- <strong>Recent sticks over volume averages</strong> -->
+    <table>
+        <tr>
+            <td>
+                1000 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[0]}}
+            </td>
+            <td>
+                30 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[1]}}
+            </td>
+            <td>
+                60 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[2]}}
+            </td>
+            <td>
+                100 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[3]}}
+            </td>
+            <td>
+                200 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[4]}}
+            </td>
+            <td>
+                365 Day:
+            </td>
+            <td class="bold">
+                {{item.daysOver[5]}}
+            </td>
+        </tr>
+    </table>
+    <canvas baseChart
+    [datasets]="chartData1d"
+    [options]="chartOptions"
+    [chartType]="type"></canvas>
+</div>
+<div class="chart-wrapper">
+    <h5>3 Day Candles <span style="font-size: smaller;">(1000 candles or max)</span></h5>
+    <!-- <strong>Recent sticks over volume average</strong> -->
+    <canvas baseChart
+    [datasets]="chartData3d"
+    [options]="chartOptions"
+    [chartType]="type"></canvas>
+</div>
+<div class="chart-wrapper">
+    <h5>1 Week Candles <span style="font-size: smaller;">(1000 candles or max)</span></h5>
+    <!-- <strong>Recent sticks over volume average</strong> -->
+    <canvas baseChart
+    [datasets]="chartData1w"
+    [options]="chartOptions"
+    [chartType]="type"></canvas>
+</div>
+

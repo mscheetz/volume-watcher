@@ -20,7 +20,7 @@ export class VolumeOverAverageComponent implements OnInit {
   useUsdt: boolean = true;
   selectedInterval: string = "All";
   getComplete: boolean = true;
-  page: number = 0;
+  page: number = -1;
   size: number = 25;
   dailyIdx: number = 0;
   selectedDaily: string = "";
@@ -30,6 +30,7 @@ export class VolumeOverAverageComponent implements OnInit {
   allData: boolean = false;
   threeDAccum: boolean = false;
   weeklyAccum: boolean = false;
+  processingItem: boolean = false;
 
   constructor(private apiSvc: ApiService,
               private coreSvc: CoreService,
@@ -78,6 +79,7 @@ export class VolumeOverAverageComponent implements OnInit {
   }
 
   onProcessItem(item: VolumeOverAverge) {
+    this.processingItem = true;
     item.diff = this.coreSvc.getDiff(item);
     item.url = this.coreSvc.getUrl(item);
     let threeDayCount = 0;
@@ -105,6 +107,7 @@ export class VolumeOverAverageComponent implements OnInit {
     item.accumulationWeekly = weeklyCount > 1 ? true : false;
     this.items.push(item);
     this.onBaseChange();
+    this.processingItem = false;
     //this.filtered.push(item);
   }
 
@@ -157,13 +160,13 @@ export class VolumeOverAverageComponent implements OnInit {
     let position = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
     let max = document.documentElement.scrollHeight;
     if(position === max) {
-      this.page++;
       this.getSocketPage();
     }
   }
 
   getSocketPage(){
     if(!this.allData) {
+      this.page++;
       this.loading = true;
       this.socketSvc.send('voa-paged', { page: this.page, size: this.size });
     }

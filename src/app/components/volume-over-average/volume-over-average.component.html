@@ -42,7 +42,7 @@
             [dailyName]="selectedDaily">
     </app-v-o-a-item>
 </div>
-<div *ngIf="!allData" class="btn-div">
+<div *ngIf="!allData && !processingItem" class="btn-div">
     <button mat-flat-button color="accent" (click)="getSocketPage()">Get More Records</button>
 </div>
 <h5 *ngIf="allData">All data received</h5>

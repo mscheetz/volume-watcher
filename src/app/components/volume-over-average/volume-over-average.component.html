@@ -42,5 +42,8 @@
             [dailyName]="selectedDaily">
     </app-v-o-a-item>
 </div>
+<div *ngIf="!allData" class="btn-div">
+    <button mat-flat-button color="accent" (click)="getSocketPage()">Get More Records</button>
+</div>
 <h5 *ngIf="allData">All data received</h5>
 <mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>

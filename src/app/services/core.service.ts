@@ -25,8 +25,8 @@ export class CoreService {
     }
   }
 
-  getCallbackUrl(symbol: any): string {
-    const url = `${location.origin}/voa/${symbol}`;
+  getCallbackUrl(item: any): string {
+    const url = `${location.origin}/voa/${item.symbol}`;
 
     return url;
   }

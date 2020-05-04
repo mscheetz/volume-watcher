@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
           res.forEach(r => {
             r.diff = this.coreSvc.getDiff(r);
             r.exchangeUrl = this.coreSvc.getExchangeUrl(r);
-            r.callbackUrl = this.coreSvc.getCallbackUrl(r.symbol);
+            r.callbackUrl = this.coreSvc.getCallbackUrl(r);
             this.items.push(r);
           })
         })

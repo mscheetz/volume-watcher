@@ -48,12 +48,7 @@ export class VOAItemComponent implements OnInit, OnChanges {
   norm: string = 'rgba(0, 0, 0, 46)';
   oa: string = 'rgba(255, 0, 0, 1)';
 
-  constructor(private snackBar: MatSnackBar,
-              iconRegistry: MatIconRegistry,
-              sanitizer: DomSanitizer) { 
-                iconRegistry.addSvgIcon('link',
-                sanitizer.bypassSecurityTrustResourceUrl('assets/img/examples/link.svg'));
-              }
+  constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.chartData1d = [];

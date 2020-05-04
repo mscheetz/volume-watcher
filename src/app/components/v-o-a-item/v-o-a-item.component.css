@@ -23,8 +23,15 @@ h5 {
     float: left;
 }
 
-.link {
-    color: blue;
+.link, .twitter-link {
     cursor: pointer;
     padding-left: 20px;
+}
+
+.link {
+    color: blue;
+}
+
+.twitter-link {
+    color: #55acee;
 }

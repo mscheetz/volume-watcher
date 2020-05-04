@@ -28,14 +28,15 @@
     </table>
 </div>
 <div class="float-left">
-    <!-- <i class="fa fa-link link"
+    <i class="fa fa-link link"
        title="Copy link to {{item.symbol}} details"
        [copy-clipboard]="item.callbackUrl" 
-       (copied)="copySuccess($event)"></i> -->
-    <mat-icon title="Copy link to {{item.symbol}} details"
-        class="link"
-        [copy-clipboard]="item.callbackUrl" 
-        (copied)="copySuccess($event)">link</mat-icon>
+       (copied)="copySuccess($event)"></i>
+    <a href="https://twitter.com/share?url={{item.callbackUrl}}&text=Check out the Volume over Average details for {{item.symbol}}!" 
+       title="Share Volume over Average for {{item.symbol}} on Twitter!"
+       target="_blank">
+        <i class="fab fa-twitter twitter-link"></i>
+    </a>
 </div>
 <div class="clear"></div>
 <div class="chart-wrapper">

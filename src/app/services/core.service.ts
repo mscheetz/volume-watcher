@@ -13,7 +13,7 @@ export class CoreService {
     return final;
   }
 
-  getUrl(item: any): string {
+  getExchangeUrl(item: any): string {
     if(item.exchange === "BINANCE") {
       let symbol = item.symbol;
       if(symbol.endsWith("BTC")) {
@@ -23,5 +23,11 @@ export class CoreService {
       }
       return `https://www.binance.com/en/trade/pro/${symbol}`;
     }
+  }
+
+  getCallbackUrl(symbol: any): string {
+    const url = `${location.origin}/voa/${symbol}`;
+
+    return url;
   }
 }

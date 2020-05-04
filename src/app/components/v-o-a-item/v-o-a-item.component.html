@@ -1,29 +1,43 @@
-<table mat-table>
-    <tbody>
-        <tr>
-            <td style="width: 75px;"><a href="{{item.url}}" target="_blank">{{item.symbol}}</a></td>
-            <td style="width: 75px;">{{item.exchange}}</td>
-            <td style="width: 35px;">{{item.size}}</td>
-            <td><strong>Open</strong></td>
-            <td>{{item.open}}</td>
-            <td><strong>High</strong></td>
-            <td>{{item.high}}</td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <strong>Diff</strong>
-                &nbsp;
-                <span style="font-weight: 600;" [style.color]="item.diff.indexOf('-') === 0 ? 'red' : 'green'">
-                    {{item.diff}}
-                </span>
-            </td>
-            <td><strong>Close</strong></td>
-            <td>{{item.close}}</td>
-            <td><strong>Low</strong></td>
-            <td>{{item.low}}</td>
-        </tr>
-    </tbody>
-</table>
+
+<div class="float-left">
+    <table mat-table>
+        <tbody>
+            <tr>
+                <td style="width: 75px;"><a href="{{item.exchangeUrl}}" target="_blank">{{item.symbol}}</a></td>
+                <td style="width: 75px;">{{item.exchange}}</td>
+                <td style="width: 35px;">{{item.size}}</td>
+                <td><strong>Open</strong></td>
+                <td>{{item.open}}</td>
+                <td><strong>High</strong></td>
+                <td>{{item.high}}</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <strong>Diff</strong>
+                    &nbsp;
+                    <span style="font-weight: 600;" [style.color]="item.diff.indexOf('-') === 0 ? 'red' : 'green'">
+                        {{item.diff}}
+                    </span>
+                </td>
+                <td><strong>Close</strong></td>
+                <td>{{item.close}}</td>
+                <td><strong>Low</strong></td>
+                <td>{{item.low}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="float-left">
+    <i class="fa fa-link link"
+       title="Copy link to {{item.symbol}} details"
+       [copy-clipboard]="item.callbackUrl" 
+       (copied)="copySuccess($event)"></i>
+    <mat-icon title="Copy link to {{item.symbol}} details"
+        class="link"
+        [copy-clipboard]="item.callbackUrl" 
+        (copied)="copySuccess($event)">link</mat-icon>
+</div>
+<div class="clear"></div>
 <div class="chart-wrapper">
     <h5>1 Day Candles <span style="font-size: smaller;">{{dailyName}} average</span></h5>
     <!-- <strong>Recent sticks over volume averages</strong> -->

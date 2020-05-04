@@ -9,5 +9,6 @@ export class IntervalBase {
     close: string;
     closeTime: number;
     diff: string;
-    url: string;
+    exchangeUrl: string;
+    callbackUrl: string = "";
 }

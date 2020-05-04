@@ -11,6 +11,20 @@ h5 {
     border-bottom: 2px solid #4e544a;
 }
 
+.clear {
+    clear: both;
+}
+
 .bold {
     font-weight: bold;
+}
+
+.float-left {
+    float: left;
+}
+
+.link {
+    color: blue;
+    cursor: pointer;
+    padding-left: 20px;
 }

@@ -81,7 +81,8 @@ export class VolumeOverAverageComponent implements OnInit {
   onProcessItem(item: VolumeOverAverge) {
     this.processingItem = true;
     item.diff = this.coreSvc.getDiff(item);
-    item.url = this.coreSvc.getUrl(item);
+    item.exchangeUrl = this.coreSvc.getExchangeUrl(item);
+    item.callbackUrl = this.coreSvc.getCallbackUrl(item);
     let threeDayCount = 0;
     let weeklyCount = 0;
     let threeDayContinue = true;

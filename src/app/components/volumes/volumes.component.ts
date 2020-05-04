@@ -38,7 +38,8 @@ export class VolumesComponent implements OnInit {
           this.items = res;
           this.items.forEach(item => {
             item.diff = this.coreSvc.getDiff(item);
-            item.url = this.coreSvc.getUrl(item);
+            item.exchangeUrl = this.coreSvc.getExchangeUrl(item);
+            item.callbackUrl = "";
           });
           this.intervals = [...new Set(this.items.map(i => i.size))];
           if(this.intervals.length > 1) {
@@ -65,7 +66,8 @@ export class VolumesComponent implements OnInit {
         size: msg.size,
         symbol: msg.symbol,
         diff: this.coreSvc.getDiff(msg),
-        url: this.coreSvc.getUrl(msg)
+        exchangeUrl: this.coreSvc.getExchangeUrl(msg),
+        callbackUrl: ""
       };
       this.items.push(newItem);
       this.filtered.push(newItem);

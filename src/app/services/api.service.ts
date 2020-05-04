@@ -64,6 +64,12 @@ export class ApiService {
         return this.onGet<VolumeOverAverge[]>(endpoint);
     }
 
+    getVOABySymbol(symbol: string): Observable<VolumeOverAverge[]>{
+        let endpoint: string = `/voa/symbol/${symbol}`;
+
+        return this.onGet<VolumeOverAverge[]>(endpoint);
+    }
+
     getVOAPaged(page: number, size: number): Observable<PagedResponse<VolumeOverAverge[]>>{
         let endpoint: string = `/voa`;
         let data = {

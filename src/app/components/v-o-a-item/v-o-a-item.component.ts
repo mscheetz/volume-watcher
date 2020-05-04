@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { VolumeOverAverge } from 'src/app/classes/volume-over-average.class';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-v-o-a-item',
@@ -45,7 +48,12 @@ export class VOAItemComponent implements OnInit, OnChanges {
   norm: string = 'rgba(0, 0, 0, 46)';
   oa: string = 'rgba(255, 0, 0, 1)';
 
-  constructor() { }
+  constructor(private snackBar: MatSnackBar,
+              iconRegistry: MatIconRegistry,
+              sanitizer: DomSanitizer) { 
+                iconRegistry.addSvgIcon('link',
+                sanitizer.bypassSecurityTrustResourceUrl('assets/img/examples/link.svg'));
+              }
 
   ngOnInit() {
     this.chartData1d = [];
@@ -94,5 +102,9 @@ export class VOAItemComponent implements OnInit, OnChanges {
     let result = +item.close - +item.open;
 
     return result.toFixed(decimals);
+  }
+
+  copySuccess(event) {
+    this.snackBar.open(`Link copied to clip board`, null, {duration: 2000});
   }
 }

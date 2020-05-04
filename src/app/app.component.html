@@ -8,3 +8,12 @@
 </div>
 <app-volume-over-average *ngIf="view === 0"></app-volume-over-average>
 <app-volumes *ngIf="view === 1"></app-volumes>
+<ng-container *ngIf="view === 2">
+    <div *ngFor="let item of items">
+        <app-v-o-a-item
+                [item]="item"
+                [dailyIdx]="dailyIdx"
+                [dailyName]="selectedDaily">
+        </app-v-o-a-item>
+    </div>
+</ng-container>

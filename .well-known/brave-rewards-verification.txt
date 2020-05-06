@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: volume-watcher.herokuapp.com
+Token: 098f92a60ee73a760dbc93cceeaf96feee01cc8977d9f3d3be4f5aca6167e636

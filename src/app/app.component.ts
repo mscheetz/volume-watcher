@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   dailyIdx: number = 0;
   selectedDaily: string = '1000 Day';
   ready: boolean = false;
+  noResult: boolean = false;
 
   constructor(public dialog: MatDialog, 
               private router: Router,
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
 
   loadDetail() {
     this.view = View.Detail;
-    this.viewName = `Volume Over Average`;
+    this.viewName = `All Volume Over Average`;
     this.onGetVOA();
   }
 
@@ -64,7 +65,10 @@ export class AppComponent implements OnInit {
     this.viewName = 'Volume Increase';
   }
 
-  onToggleView(event) {
+  onToggleView(event) { 
+    if (this.view === View.Detail ) {
+      this.router.navigateByUrl('/');
+    } 
     if(this.view === View.VOA) {
       this.view = View.Volume;
       this.viewName = `Volume Over Average`;
@@ -82,15 +86,20 @@ export class AppComponent implements OnInit {
   }
 
   onGetVOA() {
+    this.noResult = false;
     this.apiSvc.getVOABySymbol(this.symbol)
         .subscribe(res => {
           this.items = [];
-          res.forEach(r => {
-            r.diff = this.coreSvc.getDiff(r);
-            r.exchangeUrl = this.coreSvc.getExchangeUrl(r);
-            r.callbackUrl = this.coreSvc.getCallbackUrl(r);
-            this.items.push(r);
-          })
+          if(res.length === 0) {
+            this.noResult = true;
+          } else {
+            res.forEach(r => {
+              r.diff = this.coreSvc.getDiff(r);
+              r.exchangeUrl = this.coreSvc.getExchangeUrl(r);
+              r.callbackUrl = this.coreSvc.getCallbackUrl(r);
+              this.items.push(r);
+            });
+          }
         })
   }
 }

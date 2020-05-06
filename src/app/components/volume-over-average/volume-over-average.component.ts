@@ -88,13 +88,19 @@ export class VolumeOverAverageComponent implements OnInit {
     let threeDayContinue = true;
     let weeklyContinue = true;
     for(let i = item.volume3d.length - 1; i >= 0; i --) {
-      if(threeDayContinue && +item.volume3d[i] > +item.volAvg[6]) {
+      let latest3d = i === item.volume3d.length - 1 ? true : false;
+      if(latest3d && +item.volume3d[i-1] > +item.volAvg[6]) {
+        threeDayCount++;
+      } else if(threeDayContinue && +item.volume3d[i] > +item.volAvg[6]) {
         threeDayCount++;
       } else {
         threeDayContinue = false;
       }
       if(item.volume1w.length >= (i + 1)) {
-        if(weeklyContinue && +item.volume1w[i] > +item.volAvg[7]) {
+        let latest1w = i === item.volume1w.length - 1 ? true : false;
+        if(latest1w && +item.volume1w[i-1] > +item.volAvg[7]) {
+          weeklyCount++;
+        } else if(weeklyContinue && +item.volume1w[i] > +item.volAvg[7]) {
           weeklyCount++;
         } else {
           weeklyContinue = false;

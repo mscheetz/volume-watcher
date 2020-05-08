@@ -27,21 +27,23 @@
         </tbody>
     </table>
 </div>
-<div class="float-left">
-    <i class="fa fa-link link"
+<div class="float-left icon-box">
+    <i *ngIf="isHot()"
+        class="fas fa-fire-alt fa-2x watcher icon-pad" 
+        title="Hot One!"></i>
+    <i class="fa fa-link fa-2x link icon-pad"
        title="Copy link to {{item.symbol}} details"
        [copy-clipboard]="item.callbackUrl" 
        (copied)="copySuccess($event)"></i>
     <a href="https://twitter.com/share?url={{item.callbackUrl}}&text=Check out the Volume over Average details for {{item.symbol}}!" 
        title="Share Volume over Average for {{item.symbol}} on Twitter!"
        target="_blank">
-        <i class="fab fa-twitter twitter-link"></i>
+        <i class="fab fa-twitter fa-2x twitter-link icon-pad"></i>
     </a>
 </div>
 <div class="clear"></div>
 <div class="chart-wrapper">
     <h5>1 Day Candles <span style="font-size: smaller;">{{dailyName}} average</span></h5>
-    <!-- <strong>Recent sticks over volume averages</strong> -->
     <canvas baseChart
     [datasets]="chartData1d"
     [options]="chartOptions"
@@ -49,7 +51,6 @@
 </div>
 <div class="chart-wrapper">
     <h5>3 Day Candles <span style="font-size: smaller;">(1000 candles or max)</span></h5>
-    <!-- <strong>Recent sticks over volume average</strong> -->
     <canvas baseChart
     [datasets]="chartData3d"
     [options]="chartOptions"
@@ -57,7 +58,6 @@
 </div>
 <div class="chart-wrapper">
     <h5>1 Week Candles <span style="font-size: smaller;">(1000 candles or max)</span></h5>
-    <!-- <strong>Recent sticks over volume average</strong> -->
     <canvas baseChart
     [datasets]="chartData1w"
     [options]="chartOptions"

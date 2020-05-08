@@ -3,6 +3,13 @@ canvas {
     height: 50px !important;
 }
 
+@media(max-width: 600px) {
+    canvas {
+        width: 100% !important;
+        height: 50px !important;
+    }
+}
+
 h5 {
     margin-block-end: 0em;
 }
@@ -28,10 +35,22 @@ h5 {
     padding-left: 20px;
 }
 
+.icon-box {
+    padding-top: 10px;
+}
+
+.icon-pad {
+    padding: 0 10px;
+}
+
 .link {
     color: blue;
 }
 
 .twitter-link {
     color: #55acee;
+}
+
+.watcher {
+    color: orange;
 }

@@ -7,5 +7,6 @@ export class VolumeOverAverge extends IntervalBase {
     volume1w: string[];
     volAvg: string[];
     accumulation3D: boolean = false;
-    accumulationWeekly: boolean = false;    
+    accumulationWeekly: boolean = false;
+    voaPercent: string[];
 }

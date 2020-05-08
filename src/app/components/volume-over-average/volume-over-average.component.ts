@@ -18,6 +18,7 @@ export class VolumeOverAverageComponent implements OnInit {
   loading: boolean = false;
   useBtc: boolean = true;
   useUsdt: boolean = true;
+  hotOnes: boolean = false;
   selectedInterval: string = "All";
   getComplete: boolean = true;
   page: number = -1;
@@ -83,39 +84,9 @@ export class VolumeOverAverageComponent implements OnInit {
     item.diff = this.coreSvc.getDiff(item);
     item.exchangeUrl = this.coreSvc.getExchangeUrl(item);
     item.callbackUrl = this.coreSvc.getCallbackUrl(item);
-    // let threeDayCount = 0;
-    // let weeklyCount = 0;
-    // let threeDayContinue = true;
-    // let weeklyContinue = true;
-    // for(let i = item.volume3d.length - 1; i >= 0; i --) {
-    //   let latest3d = i === item.volume3d.length - 1 ? true : false;
-    //   if(latest3d && +item.volume3d[i-1] > +item.volAvg[6]) {
-    //     threeDayCount++;
-    //   } else if(threeDayContinue && +item.volume3d[i] > +item.volAvg[6]) {
-    //     threeDayCount++;
-    //   } else {
-    //     threeDayContinue = false;
-    //   }
-    //   if(item.volume1w.length >= (i + 1)) {
-    //     let latest1w = i === item.volume1w.length - 1 ? true : false;
-    //     if(latest1w && +item.volume1w[i-1] > +item.volAvg[7]) {
-    //       weeklyCount++;
-    //     } else if(weeklyContinue && +item.volume1w[i] > +item.volAvg[7]) {
-    //       weeklyCount++;
-    //     } else {
-    //       weeklyContinue = false;
-    //     }
-    //   }
-    //   if(!threeDayContinue && !weeklyContinue) {
-    //     break;
-    //   }
-    // }
-    // item.accumulation3D = threeDayCount > 1 ? true : false;
-    // item.accumulationWeekly = weeklyCount > 1 ? true : false;
     this.items.push(item);
     this.onBaseChange();
     this.processingItem = false;
-    //this.filtered.push(item);
   }
 
   onAlertComplete() {
@@ -128,12 +99,17 @@ export class VolumeOverAverageComponent implements OnInit {
     this.loading = true;
     this.filtered = [];
 
-    if(this.selectedIndicator === '3 Day') {
-      this.filtered = this.items.filter(i => i.accumulation3D === true);
-    } else if(this.selectedIndicator === 'Weekly') {
-      this.filtered = this.items.filter(i => i.accumulationWeekly === true);
+    if(this.hotOnes) {
+      this.filtered = this.items.filter(i => +i.voaPercent[6] > 2 || +i.voaPercent[7] > 2);
+      this.selectedIndicator = 'Select';
     } else {
-      this.filtered = this.items;
+      if(this.selectedIndicator === '3 Day') {
+        this.filtered = this.items.filter(i => i.accumulation3D === true);
+      } else if(this.selectedIndicator === 'Weekly') {
+        this.filtered = this.items.filter(i => i.accumulationWeekly === true);
+      } else {
+        this.filtered = this.items;
+      }
     }
     
     if(this.useBtc && !this.useUsdt) {
@@ -194,6 +170,10 @@ export class VolumeOverAverageComponent implements OnInit {
     if(!this.useBtc && !this.useUsdt) {
       this.useBtc = true;
     }
+    this.onBaseChange();
+  }
+
+  onHotOneChange(event) {
     this.onBaseChange();
   }
 }

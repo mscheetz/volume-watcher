@@ -3,6 +3,13 @@ canvas {
     height: 50px !important;
 }
 
+@media(max-width: 600px) {
+    canvas {
+        width: 100% !important;
+        height: 50px !important;
+    }
+}
+
 .chart-wrapper {
     border-bottom: 2px solid #4e544a;
 }

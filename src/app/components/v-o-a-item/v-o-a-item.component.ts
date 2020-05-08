@@ -18,7 +18,7 @@ export class VOAItemComponent implements OnInit, OnChanges {
     legend: {
       display: false
     },
-    //responsive: true,
+    responsive: true,
     scales: {
       xAxes: [{
         gridLines: {
@@ -32,6 +32,7 @@ export class VOAItemComponent implements OnInit, OnChanges {
         gridLines: {
           display: false
         },
+        offset: false,
         ticks: {
           display: false
         }
@@ -59,14 +60,18 @@ export class VOAItemComponent implements OnInit, OnChanges {
       if(this.item.volume3d.length >= (i + 1)) {
         const dataSet3d: ChartDataSets = {
           backgroundColor: +this.item.volume3d[i] > +this.item.volAvg[6] ? this.oa : this.norm,
-          data: [+this.item.volume3d[i]]
+          hoverBackgroundColor: +this.item.volume3d[i] > +this.item.volAvg[6] ? this.oa : this.norm,
+          data: [+this.item.volume3d[i]],
+          categoryPercentage: 1
         }
         this.chartData3d.push(dataSet3d);
       }
       if(this.item.volume1w.length >= (i + 1)) {
         const dataSet1w: ChartDataSets = {
           backgroundColor: +this.item.volume1w[i] > +this.item.volAvg[7] ? this.oa : this.norm,
-          data: [+this.item.volume1w[i]]
+          hoverBackgroundColor: +this.item.volume1w[i] > +this.item.volAvg[7] ? this.oa : this.norm,
+          data: [+this.item.volume1w[i]],
+          categoryPercentage: 1
         }
         this.chartData1w.push(dataSet1w);
       }
@@ -80,7 +85,9 @@ export class VOAItemComponent implements OnInit, OnChanges {
   setDailyChart(i: number) {
     const dataSet1d: ChartDataSets = {
       backgroundColor: +this.item.volume1d[i] > +this.item.volAvg[this.dailyIdx] ? this.oa : this.norm,
-      data: [+this.item.volume1d[i]]
+      hoverBackgroundColor: +this.item.volume1d[i] > +this.item.volAvg[this.dailyIdx] ? this.oa : this.norm,
+      data: [+this.item.volume1d[i]],
+      categoryPercentage: 1
     }
     this.chartData1d.push(dataSet1d);
   }
@@ -101,5 +108,11 @@ export class VOAItemComponent implements OnInit, OnChanges {
 
   copySuccess(event) {
     this.snackBar.open(`Link copied to clip board`, null, {duration: 2000});
+  }
+
+  isHot(): boolean {
+    let hotness = this.item.voaPercent && (+this.item.voaPercent[6] > 2 || +this.item.voaPercent[7] > 2);
+
+    return hotness
   }
 }

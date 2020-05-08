@@ -47,8 +47,10 @@ export class CustomResponseComponent implements OnInit {
     this.item.volume.forEach(vol => {
       const dataSet: ChartDataSets = {
         backgroundColor: 'rgba(255, 0, 0, 1)',
+        hoverBackgroundColor: 'rgba(255, 0, 0, 1)',
         //barThickness: 8,
-        data: [vol]
+        data: [vol],
+        categoryPercentage: 1
       }
       this.chartData.push(dataSet);
     })

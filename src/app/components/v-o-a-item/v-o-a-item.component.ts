@@ -14,6 +14,7 @@ export class VOAItemComponent implements OnInit, OnChanges {
   @Input() item: VolumeOverAverge;
   @Input() dailyIdx: number;
   @Input() dailyName: string;
+  dailyVal: string;
   chartOptions: ChartOptions = {
     legend: {
       display: false
@@ -83,6 +84,12 @@ export class VOAItemComponent implements OnInit, OnChanges {
   }
 
   setDailyChart(i: number) {
+    const dailyVal = +this.dailyName.replace(" Day", "");
+    if(dailyVal > +this.item.stickLen[0]) {
+      this.dailyVal = `${this.item.stickLen[0]} Day (max)`;
+    } else {
+      this.dailyVal = this.dailyName;
+    }
     const dataSet1d: ChartDataSets = {
       backgroundColor: +this.item.volume1d[i] > +this.item.volAvg[this.dailyIdx] ? this.oa : this.norm,
       hoverBackgroundColor: +this.item.volume1d[i] > +this.item.volAvg[this.dailyIdx] ? this.oa : this.norm,

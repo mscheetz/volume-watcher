@@ -80,6 +80,12 @@ export class ApiService {
         return this.onPost<PagedResponse<VolumeOverAverge[]>, any>(endpoint, data);
     }
 
+    getVOAPairs(): Observable<string[]> {
+        let endpoint: string = `/voa/pairs`;
+
+        return this.onGet<string[]>(endpoint);
+    }
+
     private onGet<T>(endpoint: string): Observable<T> {
         let url: string = `${this.baseUrl}${endpoint}`;
 

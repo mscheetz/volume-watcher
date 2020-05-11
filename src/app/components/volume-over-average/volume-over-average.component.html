@@ -1,7 +1,15 @@
 <div>
     <strong>Red candles are over the average candle for the specified timeframe</strong>
 </div>
-<div>
+<div class="options">
+    <!-- <mat-label>Watched Pairs</mat-label>
+    <mat-form-field>
+        <mat-select style="text-align: center;" [(ngModel)]="selectedPair" (selectionChange)="onPairSelect($event)">
+            <mat-option *ngFor="let p of pairs" [value]="p">
+                {{p}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> -->
     <mat-label>Daily Candle Average</mat-label>
     <mat-form-field>
         <mat-select style="text-align: center;" [(ngModel)]="selectedDaily" (selectionChange)="onDailySelect($event)">
@@ -20,7 +28,7 @@
         </mat-select>
     </mat-form-field>
 </div>
-<div>
+<div class="options pad-b-5">
     <mat-label>Show BTC Pairs</mat-label>&nbsp;
     <mat-checkbox [(ngModel)]="useBtc" (ngModelChange)="onBtcChange($event)"></mat-checkbox>
     &nbsp;&nbsp;
@@ -30,7 +38,7 @@
     <mat-label>Show Hot Ones!</mat-label>&nbsp;
     <mat-checkbox [(ngModel)]="hotOnes" (ngModelChange)="onHotOneChange($event)"></mat-checkbox>
 </div>
-<table mat-table>
+<!-- <table mat-table>
     <thead>
         <tr>
             <th style="width: 75px;">Symbol</th>
@@ -39,7 +47,7 @@
             <th style="width: 340px;"></th>
         </tr>
     </thead>
-</table>
+</table> -->
 <div *ngFor="let item of filtered">
     <app-v-o-a-item 
             [item]="item"

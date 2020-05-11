@@ -1,10 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { VolumeOverAverge } from 'src/app/classes/volume-over-average.class';
 import { ApiService } from 'src/app/services/api.service';
 import { PagedResponse } from 'src/app/classes/paged-response.class';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SocketioService } from 'src/app/services/socket.service';
 import { CoreService } from 'src/app/services/core.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-volume-over-average',
@@ -12,6 +13,8 @@ import { CoreService } from 'src/app/services/core.service';
   styleUrls: ['./volume-over-average.component.css']
 })
 export class VolumeOverAverageComponent implements OnInit {
+  @Input() pairs: string[];
+  selectedPair: string = "";
   items: VolumeOverAverge[] = [];
   filtered: VolumeOverAverge[] = [];
   symbolSort: string = "";
@@ -36,7 +39,8 @@ export class VolumeOverAverageComponent implements OnInit {
   constructor(private apiSvc: ApiService,
               private coreSvc: CoreService,
               private snack: MatSnackBar,
-              private socketSvc: SocketioService ) {
+              private socketSvc: SocketioService,
+              private router: Router) {
     this.dailies = [ '1000 Day', '30 Day', '60 Day', '100 Day', '200 Day', '365 Day' ];
     this.indicators = [ 'Select', '3 Day', 'Weekly' ];
     this.selectedDaily = this.dailies[0];
@@ -175,5 +179,16 @@ export class VolumeOverAverageComponent implements OnInit {
 
   onHotOneChange(event) {
     this.onBaseChange();
+  }
+
+  onPairSelect(event) {
+    this.scrollTo();
+  }
+
+  scrollTo() {
+    const element = document.querySelector("#" + this.selectedPair);
+    if(element) {
+      element.scrollIntoView(true);
+    }
   }
 }

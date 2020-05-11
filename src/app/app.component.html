@@ -6,9 +6,19 @@
     &nbsp;&nbsp;&nbsp;
     <button mat-flat-button color="accent" (click)="onOpenDonate()">Donate</button>
 </div>
-<app-volume-over-average *ngIf="view === 0"></app-volume-over-average>
+<app-volume-over-average *ngIf="view === 0" [pairs]="pairs"></app-volume-over-average>
 <app-volumes *ngIf="view === 1"></app-volumes>
 <ng-container *ngIf="view === 2">
+    <div>
+        <mat-label>Watched Pairs</mat-label>
+        <mat-form-field>
+            <mat-select style="text-align: center;" [(ngModel)]="selectedPair" (selectionChange)="onPairSelect($event)">
+                <mat-option *ngFor="let p of pairs" [value]="p">
+                    {{p}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <div *ngFor="let item of items">
         <app-v-o-a-item
                 [item]="item"

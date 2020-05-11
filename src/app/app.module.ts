@@ -62,7 +62,7 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     QRCodeModule,
     CopyClipboardModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { anchorScrolling: 'enabled' })
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

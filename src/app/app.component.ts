@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
   selectedDaily: string = '1000 Day';
   ready: boolean = false;
   noResult: boolean = false;
+  selectedPair: string = "";
+  pairs: string[] = [];
 
   constructor(public dialog: MatDialog, 
               private router: Router,
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit {
           console.log('router list', routerList);
           if(routerList.length == 2 && routerList[0] === 'voa') {          
             symbol = routerList[1];
+            this.selectedPair = symbol;
           }          
           if(symbol !== "") {
             this.symbol = symbol;
@@ -58,11 +61,13 @@ export class AppComponent implements OnInit {
     this.view = View.Detail;
     this.viewName = `All Volume Over Average`;
     this.onGetVOA();
+    this.onGetPairs();
   }
 
   loadVOA() {
     this.view = View.VOA;
     this.viewName = 'Volume Increase';
+    this.onGetPairs();
   }
 
   onToggleView(event) { 
@@ -101,5 +106,19 @@ export class AppComponent implements OnInit {
             });
           }
         })
+  }
+
+  onGetPairs() {
+    this.pairs = [];
+    this.apiSvc.getVOAPairs()
+        .subscribe(res => {
+          this.pairs = res;
+        });
+  }
+
+  onPairSelect(event) {
+    this.router.navigateByUrl(`/voa/${this.selectedPair}`);
+    this.symbol = this.selectedPair;
+    this.onGetVOA();
   }
 }

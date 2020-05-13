@@ -30,4 +30,20 @@ export class CoreService {
 
     return url;
   }
+
+  /**
+   * Find the index of an item in an array
+   * 
+   * @param arr array
+   * @param attribute attribute to find
+   * @param value value to match
+   */
+  getIndex(arr: any[], attribute: string, value: any) {
+    for(let i = 0; i < arr.length; i ++) {
+      if(arr[i][attribute] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }

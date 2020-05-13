@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit,  HostListener, Input, DoCheck } from '@angular/core';
 import { VolumeOverAverge } from 'src/app/classes/volume-over-average.class';
 import { ApiService } from 'src/app/services/api.service';
 import { PagedResponse } from 'src/app/classes/paged-response.class';
@@ -12,9 +12,10 @@ import { Router } from '@angular/router';
   templateUrl: './volume-over-average.component.html',
   styleUrls: ['./volume-over-average.component.css']
 })
-export class VolumeOverAverageComponent implements OnInit {
+export class VolumeOverAverageComponent implements OnInit, DoCheck {
   @Input() pairs: string[];
   selectedPair: string = "";
+  thePair: string = "";
   items: VolumeOverAverge[] = [];
   filtered: VolumeOverAverge[] = [];
   symbolSort: string = "";
@@ -60,6 +61,13 @@ export class VolumeOverAverageComponent implements OnInit {
     }
   }
 
+  ngDoCheck() {
+    if(this.selectedPair !== this.thePair) {
+      this.thePair = this.selectedPair;
+      this.pairCheck();
+    }
+  }
+
   async onGetRecords() {
     this.getComplete = false;
     this.apiSvc.getVOAPaged(this.page, this.size)
@@ -84,13 +92,15 @@ export class VolumeOverAverageComponent implements OnInit {
   }
 
   onProcessItem(item: VolumeOverAverge) {
-    this.processingItem = true;
-    item.diff = this.coreSvc.getDiff(item);
-    item.exchangeUrl = this.coreSvc.getExchangeUrl(item);
-    item.callbackUrl = this.coreSvc.getCallbackUrl(item);
-    this.items.push(item);
-    this.onBaseChange();
-    this.processingItem = false;
+    if(this.items.filter(i => i.symbol === item.symbol).length === 0) {
+      this.processingItem = true;
+      item.diff = this.coreSvc.getDiff(item);
+      item.exchangeUrl = this.coreSvc.getExchangeUrl(item);
+      item.callbackUrl = this.coreSvc.getCallbackUrl(item);
+      this.items.push(item);
+      this.onBaseChange();
+      this.processingItem = false;
+    }
   }
 
   onAlertComplete() {
@@ -102,6 +112,7 @@ export class VolumeOverAverageComponent implements OnInit {
   onBaseChange() {
     this.loading = true;
     this.filtered = [];
+    this.unHighlightAll();
 
     if(this.hotOnes) {
       this.filtered = this.items.filter(i => +i.voaPercent[6] > 2 || +i.voaPercent[7] > 2);
@@ -181,14 +192,57 @@ export class VolumeOverAverageComponent implements OnInit {
     this.onBaseChange();
   }
 
-  onPairSelect(event) {
-    this.scrollTo();
+  pairCheck() {
+    if(this.items.filter(i => i.symbol === this.thePair).length > 0) {
+      this.scrollTo();
+    } else {
+      this.onGetPair();
+    }
+  }
+
+  onGetPair() {
+    this.apiSvc.getVOABySymbol(this.thePair)
+        .subscribe(datas => {
+          datas.forEach(data => {
+            this.onProcessItem(data);
+            data.highlight = true;
+            const idx = this.coreSvc.getIndex(this.filtered, "symbol", data.symbol);
+            if(idx >= 0) {
+              this.filtered.splice(idx, 1);
+            }
+            this.filtered.unshift(data);
+          });
+        })
   }
 
   scrollTo() {
+    this.highlightSelected();
     const element = document.querySelector("#" + this.selectedPair);
     if(element) {
       element.scrollIntoView(true);
+    }
+  }
+
+  unHighlightAll() {
+    this.items.forEach(item => {
+      item.highlight = false;
+    })
+    if(this.filtered.length > 0) {
+      this.filtered.forEach(item => {
+        item.highlight = false;
+      })
+    }
+  }
+
+  highlightSelected() {
+    this.unHighlightAll();
+    let idx = this.coreSvc.getIndex(this.items, 'symbol', this.selectedPair);
+    if(idx >= 0) {
+      this.items[idx].highlight = true;
+    }
+    idx = this.coreSvc.getIndex(this.filtered, 'symbol', this.selectedPair);
+    if(idx >= 0) {
+      this.filtered[idx].highlight = true;
     }
   }
 }

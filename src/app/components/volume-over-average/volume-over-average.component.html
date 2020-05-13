@@ -2,14 +2,14 @@
     <strong>Red candles are over the average candle for the specified timeframe</strong>
 </div>
 <div class="options">
-    <!-- <mat-label>Watched Pairs</mat-label>
+    <mat-label>Watched Pairs</mat-label>
     <mat-form-field>
-        <mat-select style="text-align: center;" [(ngModel)]="selectedPair" (selectionChange)="onPairSelect($event)">
+        <mat-select style="text-align: center;" [(ngModel)]="selectedPair">
             <mat-option *ngFor="let p of pairs" [value]="p">
                 {{p}}
             </mat-option>
         </mat-select>
-    </mat-form-field> -->
+    </mat-form-field>
     <mat-label>Daily Candle Average</mat-label>
     <mat-form-field>
         <mat-select style="text-align: center;" [(ngModel)]="selectedDaily" (selectionChange)="onDailySelect($event)">

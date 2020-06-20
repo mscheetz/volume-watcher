@@ -1,5 +1,5 @@
 <div>Exchange: {{items[0].exchange}}   Asset: {{items[0].unit}}</div>
-<div>Initial: 100 USDT    Final: {{items[0].final}} USDT</div>
+<div>Initial: 100 USDT    Final: {{items[items.length - 1].value}} USDT</div>
 <div *ngFor="let item of items">
     <app-arbitrage-item-node [node]="item"></app-arbitrage-item-node>
 </div>

@@ -26,7 +26,6 @@ export class ArbitrageComponent implements OnInit, DoCheck {
           this.onProcessItem(item);
         }
       });
-      //this.getSocketPage();
     }
   }
 
@@ -34,10 +33,8 @@ export class ArbitrageComponent implements OnInit, DoCheck {
   }
 
   onProcessItem(item: Arbitrage[]) {
-    //if(this.items.filter(i => i.symbol === item.symbol).length === 0) {
       this.processingItem = true;
       this.items.push(item);
       this.processingItem = false;
-    //}
   }
 }

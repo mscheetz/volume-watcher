@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   noResult: boolean = false;
   selectedPair: string = "";
   pairs: string[] = [];
+  goArbitrage: boolean = false;
 
   constructor(public dialog: MatDialog, 
               private router: Router,
@@ -40,13 +41,18 @@ export class AppComponent implements OnInit {
         this.ready = true;
         let routerUrl = router.url;
         if (routerUrl && typeof routerUrl === 'string') {
+          if(routerUrl === '/arbitrage') {
+            this.goArbitrage = true;
+          }
           routerList = routerUrl.slice(1).split('/');
           console.log('router list', routerList);
           if(routerList.length == 2 && routerList[0] === 'voa') {          
             symbol = routerList[1];
             this.selectedPair = symbol;
-          }          
-          if(symbol !== "") {
+          }
+          if(this.goArbitrage) {
+            this.loadArbitrage();
+          } else if(symbol !== "") {
             this.symbol = symbol;
             this.loadDetail();          
           } else {
@@ -70,6 +76,12 @@ export class AppComponent implements OnInit {
     this.onGetPairs();
   }
 
+  loadArbitrage() {
+    this.view = View.Arbitrage;
+    this.viewName = 'Volume Over Average';
+    this.onGetPairs();
+  }
+
   onToggleView(event) { 
     if (this.view === View.Detail ) {
       this.router.navigateByUrl('/');
@@ -81,6 +93,10 @@ export class AppComponent implements OnInit {
       this.view = View.VOA;
       this.viewName = `Volume Increase`;
     }
+  }
+
+  onToggleArbitrage(event) {
+    this.view = View.Arbitrage;
   }
 
   onOpenDonate() {

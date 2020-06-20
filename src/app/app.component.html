@@ -1,8 +1,10 @@
 <!-- <app-volumes></app-volumes> -->
 <h1>Volume Watcher</h1>
 <h4>Actively watching exchanges for increases in volume</h4>
-<div>
+<div>    
     <button mat-flat-button color="accent" (click)="onToggleView($event)">{{viewName}}</button>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-flat-button color="accent" *ngIf="view !== 3" (click)="onToggleArbitrage($event)">Arbitrage</button>
     &nbsp;&nbsp;&nbsp;
     <button mat-flat-button color="accent" (click)="onOpenDonate()">Donate</button>
 </div>
@@ -27,4 +29,5 @@
         </app-v-o-a-item>
     </div>
 </ng-container>
+<app-arbitrage *ngIf="view === 3"></app-arbitrage>
 <h4 *ngIf="noResult">No Volume Over Average found for {{symbol}}</h4>

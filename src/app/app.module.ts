@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChartsModule } from 'ng2-charts';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,10 +29,14 @@ import { QrCodesComponent } from './components/qr-codes/qr-codes.component';
 import { VolumeOverAverageComponent } from './components/volume-over-average/volume-over-average.component';
 import { VOAItemComponent } from './components/v-o-a-item/v-o-a-item.component';
 import { CopyClipboardModule } from './services/copy-clipboard.module';
+import { ArbitrageComponent } from './components/arbitrage/arbitrage.component';
+import { ArbitrageItemComponent } from './components/arbitrage-item/arbitrage-item.component';
+import { ArbitrageItemNodeComponent } from './components/arbitrage-item-node/arbitrage-item-node.component';
 
 const appRoutes: Routes = [
   { path: '', component: AppComponent },
-  { path: 'voa/:symbol', component: AppComponent }
+  { path: 'voa/:symbol', component: AppComponent },
+  { path: 'arbitrage', component: AppComponent }
 ]
 
 @NgModule({
@@ -42,7 +47,10 @@ const appRoutes: Routes = [
     OptionsComponent,
     QrCodesComponent,
     VolumeOverAverageComponent,
-    VOAItemComponent
+    VOAItemComponent,
+    ArbitrageComponent,
+    ArbitrageItemComponent,
+    ArbitrageItemNodeComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +60,7 @@ const appRoutes: Routes = [
     ChartsModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,

@@ -1,0 +1,16 @@
+<div>
+    <span class="h2-like">Internal Arbitrage</span>
+    <strong>Based on initial trade of 100 USDT</strong>
+</div>
+<div *ngFor="let item of items">
+    <app-arbitrage-item 
+            [items]="item">
+    </app-arbitrage-item>
+    <div class="clear"></div>
+</div>
+<div *ngIf="!allData && !processingItem" class="btn-div">
+    <button mat-flat-button color="accent" (click)="getSocketPage()">Get More Records</button>
+</div>
+<h5 *ngIf="allData">All data received</h5>
+<mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+

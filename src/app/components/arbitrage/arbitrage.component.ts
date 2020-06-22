@@ -10,6 +10,7 @@ import { CoreService } from 'src/app/services/core.service';
 })
 export class ArbitrageComponent implements OnInit, DoCheck {
   items: Arbitrage[][] = [];
+  notFound: boolean = false;
   loading: boolean = false;
   allData: boolean = false;
   processingItem: boolean = false;
@@ -17,16 +18,23 @@ export class ArbitrageComponent implements OnInit, DoCheck {
   constructor(private socketSvc: SocketioService, private coreSvc: CoreService) { }
 
   ngOnInit() {
+    this.loading = true;
+    this.notFound = false;
     this.items = [];
     this.socketSvc.send('arbitrage', {});
     if(this.items.length === 0) {
       this.socketSvc.listen('arbitrage-items', (item) => {
-        if(this.coreSvc.getSubArray(this.items, 'id', item[0].id).length === 0) {
+        if(item === null) {
           this.loading = false;
-          if(item === null) {
-            this.allData = true;
-          } else {
-            this.onProcessItem(item);
+          this.notFound = true;
+        } else {
+          if(this.coreSvc.getSubArray(this.items, 'id', item[0].id).length === 0) {
+            if(item === null) {
+              this.allData = true;
+            } else {
+              this.loading = false;
+              this.onProcessItem(item);
+            }
           }
         }
       });

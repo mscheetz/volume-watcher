@@ -1,13 +1,14 @@
 <div>
-    <span class="h2-like">Internal Arbitrage<span class="h2-sub">Based on initial trade of 100 USDT</span></span>
-    
+    <span class="h2-like">Internal Arbitrage<span class="h2-sub">Based on initial trade of 100 USDT</span></span>    
 </div>
-<div *ngFor="let item of items">
-    <app-arbitrage-item 
-            [items]="item">
-    </app-arbitrage-item>
-    <div class="clear"></div>
-</div>
-<h5 *ngIf="allData">All data received</h5>
+<ng-container *ngIf="!loading">
+    <div *ngIf="notFound" class="not-found">No matches at this moment. Try again later.</div>
+    <div *ngFor="let item of items">
+        <app-arbitrage-item 
+                [items]="item">
+        </app-arbitrage-item>
+        <div class="clear"></div>
+    </div>
+</ng-container>
 <mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
 

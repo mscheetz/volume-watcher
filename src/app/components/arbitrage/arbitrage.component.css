@@ -11,6 +11,12 @@
     font-weight: 400;
 }
 
+.not-found {
+    font-size: larger;
+    font-weight: 500;
+    padding-top: 20px;
+}
+
 .clear {
     clear: both;
 }

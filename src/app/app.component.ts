@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
   selectedPair: string = "";
   pairs: string[] = [];
   goArbitrage: boolean = false;
+  serviceType: string;
+  serviceDetail: string;
 
   constructor(public dialog: MatDialog, 
               private router: Router,
@@ -64,6 +66,7 @@ export class AppComponent implements OnInit {
   }
 
   loadDetail() {
+    this.setDetails(true);
     this.view = View.Detail;
     this.viewName = `All Volume Over Average`;
     this.onGetVOA();
@@ -71,18 +74,31 @@ export class AppComponent implements OnInit {
   }
 
   loadVOA() {
+    this.setDetails(true);
     this.view = View.VOA;
     this.viewName = 'Volume Increase';
     this.onGetPairs();
   }
 
   loadArbitrage() {
+    this.setDetails(false);
     this.view = View.Arbitrage;
     this.viewName = 'Volume Over Average';
     this.onGetPairs();
   }
 
+  setDetails(isVolume: boolean) {
+    if(isVolume) {
+      this.serviceType = "Volume";
+      this.serviceDetail = "Actively watching exchanges for increases in volume"
+    } else {
+      this.serviceType = "Arbitrage";
+      this.serviceDetail = "Flip a quick profit in only 3 trades!";
+    }
+  }
+
   onToggleView(event) { 
+    this.setDetails(true);
     if (this.view === View.Detail ) {
       this.router.navigateByUrl('/');
     } 
@@ -96,6 +112,7 @@ export class AppComponent implements OnInit {
   }
 
   onToggleArbitrage(event) {
+    this.setDetails(false);
     this.view = View.Arbitrage;
   }
 

@@ -1,5 +1,6 @@
 <mat-card class="arbitrage-card">
     <div>{{node.pair}}</div>
-    <div>Price: {{node.price}}</div>
-    <div>Qty: <strong>{{node.value}}</strong> {{node.unit}}</div>
+    <div>Last Price: {{node.price}}</div>
+    <div>Best {{node.buy ? 'Buy' : 'Sell'}}: {{node.bestPrice}}</div>
+    <div>Qty: <strong>{{node.orderBookValue}}</strong> {{node.unit}}</div>
 </mat-card>

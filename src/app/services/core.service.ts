@@ -46,4 +46,26 @@ export class CoreService {
     }
     return -1;
   }
+  
+  getSubArray(array, prop, value) {
+      let filtered = [];
+      let found = false;
+      for(const arr of array) {
+          for(const key in arr) {
+              if(typeof(arr[key] === "object")){
+                  const item = arr[key];
+                  if(item[prop] === value) {
+                      found = true;
+                  }
+                  break;
+              }
+          }
+          if(found) {
+              filtered = arr;
+              break;
+          }
+      }
+  
+      return filtered;
+  }
 }

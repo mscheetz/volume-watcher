@@ -8,11 +8,20 @@ import { Arbitrage } from 'src/app/classes/arbitrage.class';
 })
 export class ArbitrageItemComponent implements OnInit {
   @Input() items: Arbitrage[];
+  possible: boolean = false;
+  possiblity: string;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(`items: ${this.items}`);
+    let possible = true;
+    this.items.forEach(i => {
+      if(!i.possible) {
+        possible = false;
+      }
+    });
+    this.possible = possible;
+    this.possiblity = this.items[this.items.length - 1].orderBookValue > 100 ? 'Possible' : 'Not Possible';
   }
 
 }

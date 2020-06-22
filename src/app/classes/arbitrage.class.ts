@@ -1,5 +1,6 @@
 export class Arbitrage{
     id: string;
+    buy: boolean;
     exchange: string;
     previous: string;
     value: number;

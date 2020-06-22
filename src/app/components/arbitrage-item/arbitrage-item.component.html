@@ -1,4 +1,4 @@
-<div>Exchange: {{items[0].exchange}}   Asset: {{items[0].unit}}</div>
+<div>Exchange: <strong>{{items[0].exchange}}</strong>   Asset: <strong>{{items[0].unit}}</strong></div>
 <div>Initial: <strong>100</strong> USDT&nbsp;&nbsp;&nbsp;Final: <strong>{{items[items.length - 1].orderBookValue}}</strong> USDT</div>
 <div>This trade trail is <strong>{{possiblity}}</strong></div>
 <div *ngFor="let item of items">
